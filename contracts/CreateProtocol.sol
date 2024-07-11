@@ -1,20 +1,16 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
-import "@openzeppelin/contracts-upgradeable/token/ERC1155/ERC1155Upgradeable.sol";
+import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "./CreateProtocolPermissions.sol";
+import "./Interface/ICreateProtocolPermissions.sol";
 
-contract CreateProtocol is ERC1155Upgradeable,CreateProtocolPermissions{
+contract CreateProtocol is ERC1155 {
 
-    constructor() {
-        _transferOwnership(msg.sender);
-        grantMinterRole(msg.sender);
-    }
-    
-   function grantMinterRole(address _minter) public onlyOwner{
-        minterList[_minter] = true;
-    }
+    error InvalidMinter(string mintersOnly);
 
-    function mint(address to, uint256 id, uint256 amount, bytes memory data) public onlyMinter{
+    constructor() ERC1155(""){}
+
+    function mint(address to, uint256 id, uint256 amount, bytes memory data) public {
         _mint(to, id, amount, data);
     }
 
