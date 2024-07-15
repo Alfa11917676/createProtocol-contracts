@@ -20,7 +20,7 @@ async function main() {
     CreateProtocol: CreateProtocol.target,
     CreateProtocolPermissions: CreateProtocolPermissions.target,
   };
-  console.log(deployedAddress);
+  // console.log(deployedAddress);
 }
 
 async function verify(contractAddress: string, contructorArgs: any[]) {

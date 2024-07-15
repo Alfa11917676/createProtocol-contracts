@@ -1,0 +1,19 @@
+const createProtocolRegistry = await hre.ethers.getContractFactory(
+  "CreateProtocolRegistry"
+);
+const CreateProtocolRegistry = await createProtocolRegistry.deploy();
+
+const createProtocol = await hre.ethers.getContractFactory("CreateProtocol");
+const CreateProtocol = await createProtocol.deploy();
+
+const createProtocolPermissions = await hre.ethers.getContractFactory(
+  "CreateProtocolPermissions"
+);
+const CreateProtocolPermissions = await createProtocolPermissions.deploy();
+
+const deployedAddress = {
+  CreateProtocolRegistry: CreateProtocolRegistry.target,
+  CreateProtocol: CreateProtocol.target,
+  CreateProtocolPermissions: CreateProtocolPermissions.target,
+};
+console.log(deployedAddress);
