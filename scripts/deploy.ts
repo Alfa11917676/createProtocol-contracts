@@ -15,11 +15,11 @@ async function main() {
   );
   const CreateProtocolPermissions = await createProtocolPermissions.deploy();
 
-  const deployedAddress = {
-    CreateProtocolRegistry: CreateProtocolRegistry.target,
-    CreateProtocol: CreateProtocol.target,
-    CreateProtocolPermissions: CreateProtocolPermissions.target,
-  };
+  // const deployedAddress = {
+  //   CreateProtocolRegistry: CreateProtocolRegistry.target,
+  //   CreateProtocol: CreateProtocol.target,
+  //   CreateProtocolPermissions: CreateProtocolPermissions.target,
+  // };
   // console.log(deployedAddress);
 }
 
