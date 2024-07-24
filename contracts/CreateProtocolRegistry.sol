@@ -3,17 +3,23 @@ pragma solidity ^0.8.0;
 import { OwnableUpgradeable } from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import { ICreateProtocolPermissions } from "./Interface/ICreateProtocolPermissions.sol";
 import { CreateProtocol } from "./CreateProtocol.sol";
+import { ICreateProtocol } from "./Interface/ICreateProtocol.sol";
 
 contract CreateProtocolRegistry is OwnableUpgradeable {
 
     event ProtocolDeployed(address indexed protocolAddress, address indexed creator);
+    event GlobalComMinted(address indexed comProtocol, uint256 indexed id);
 
     ICreateProtocolPermissions public permissions;
+
+    mapping (address => mapping (uint256 => uint256)) public globalCom;
+
+    mapping (address => address[]) public comCollection;
 
     address public comProtocolTemplate;
     address[] public deployedProtocols;
 
-    function initialize(address _permissions, address _comProtocolTemplate) internal initializer {
+    function initialize(address _permissions, address _comProtocolTemplate) public initializer {
         __Ownable_init();
         comProtocolTemplate = _comProtocolTemplate;
         permissions = ICreateProtocolPermissions(_permissions);
@@ -39,10 +45,21 @@ contract CreateProtocolRegistry is OwnableUpgradeable {
         }
         require(newProtocolAddress != address(0), "Failed to deploy new protocol");
 
+        ICreateProtocol(newProtocolAddress).updateComRegistry(address(this));
         // Store the address of the deployed contract
         deployedProtocols.push(newProtocolAddress);
+        comCollection[msg.sender].push(newProtocolAddress);
 
         // Emit an event for the new deployment
         emit ProtocolDeployed(newProtocolAddress, msg.sender);
+    }
+
+    function getAllCOMCollections(address _userAddress) public view returns(address[] memory) {
+        return comCollection[_userAddress];
+    }
+
+    function updateGlobalLedger(address _comProtocol, uint256 _id) public {
+        globalCom[_comProtocol][_id] += 1;
+        emit GlobalComMinted(_comProtocol, _id);
     }
 }

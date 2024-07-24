@@ -5,6 +5,10 @@ dotenv.config({ path: __dirname + "/.env" });
 const config: HardhatUserConfig = {
   solidity: "0.8.18",
   networks: {
+    baseSepolia: {
+      url: "https://rpc.ankr.com/base_sepolia",
+      accounts: [process.env.PRIVATE_KEY || ""],
+    },
     goerli: {
       url: "https://goerli.infura.io/v3/3932027bc24b4df089d1ab33886ad3db",
       accounts: [process.env.PRIVATE_KEY || ""],
